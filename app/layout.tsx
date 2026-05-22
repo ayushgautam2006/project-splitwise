@@ -11,13 +11,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SplitWise — Split Expenses, Not Friendships",
+  title: "SplitWise — Split Expenses Instantly",
   description:
-    "Track shared expenses, split bills effortlessly, and settle debts instantly with SplitWise. Perfect for trips, roommates, and groups.",
-  keywords: ["expense splitting", "bill sharing", "group expenses", "settle debts", "splitwise"],
+    "Free expense splitting calculator. Add your group, log shared expenses, and instantly see who owes whom. No login required, no data stored.",
+  keywords: ["expense splitting", "bill sharing", "group expenses", "settle debts", "splitwise calculator", "split bills"],
   openGraph: {
-    title: "SplitWise — Split Expenses, Not Friendships",
-    description: "The smartest way to split bills and settle up with friends.",
+    title: "SplitWise — Split Expenses Instantly",
+    description: "Free expense splitting calculator. No login required.",
     type: "website",
   },
 };
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} style={{ scrollBehavior: "smooth" }}>
+    <html lang="en" className={inter.variable}>
       <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
         <Header />
         <main style={{ flex: 1 }}>{children}</main>

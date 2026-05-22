@@ -1,13 +1,5 @@
-import HeroSection from "./components/HeroSection";
-import FeaturesSection from "./components/FeaturesSection";
-import HowItWorksSection from "./components/HowItWorksSection";
+import SplitCalculator from "./components/SplitCalculator";
 
 export default function Home() {
-  return (
-    <>
-      <HeroSection />
-      <FeaturesSection />
-      <HowItWorksSection />
-    </>
-  );
+  return <SplitCalculator />;
 }
