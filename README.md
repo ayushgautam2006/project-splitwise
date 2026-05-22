@@ -1,4 +1,4 @@
-# SplitWise Clone 💸
+# SplitWise 💸
 
 A fast, modern, single-page expense splitting application. No logins, no database required — everything runs directly in your browser. Add your group, log expenses, and let the app calculate the optimal (minimum) number of transactions to settle all debts.
 
@@ -41,6 +41,36 @@ When you add expenses, the app keeps a running "net balance" for each person. On
 3. It greedily matches the largest debtor with the largest creditor until all balances are zero.
 This ensures the absolute minimum number of payments are made.
 
-## 📝 License
+## � Project Structure
+
+```
+splitwise/
+├── app/                          # Next.js app directory
+│   ├── page.tsx                  # Home page component
+│   ├── layout.tsx                # Root layout wrapper
+│   ├── globals.css               # Global styles
+│   └── components/
+│       ├── Header.tsx            # Header navigation
+│       ├── Footer.tsx            # Footer section
+│       └── SplitCalculator.tsx   # Main calculator component
+├── public/                       # Static assets
+├── eslint.config.mjs             # ESLint configuration
+├── next.config.ts                # Next.js configuration
+├── tsconfig.json                 # TypeScript configuration
+├── postcss.config.mjs            # PostCSS configuration
+├── package.json                  # Dependencies and scripts
+├── next-env.d.ts                 # Next.js type definitions
+└── README.md                     # This file
+```
+
+### Key Directories
+
+- **`app/`** — Next.js app router directory containing pages and components
+  - `page.tsx` — Main entry point for the homepage
+  - `layout.tsx` — Root layout that wraps all pages
+  - `components/` — Reusable React components
+- **`public/`** — Static files served at the root (images, fonts, etc.)
+
+## �📝 License
 
 MIT
