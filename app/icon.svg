@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Completely transparent background to match any tab color -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00e5b4" />
+      <stop offset="100%" stop-color="#00c896" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#00a37a" />
+      <stop offset="100%" stop-color="#007a5c" />
+    </linearGradient>
+  </defs>
+  
+  <g fill="none" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Top arrow curving right -->
+    <path d="M 60,90 L 140,90 A 40,40 0 0 1 180,130 L 180,150" stroke="url(#grad1)" />
+    <path d="M 150,60 L 180,90 L 150,120" stroke="url(#grad1)" />
+    
+    <!-- Bottom arrow curving left -->
+    <path d="M 196,166 L 116,166 A 40,40 0 0 1 76,126 L 76,106" stroke="url(#grad2)" />
+    <path d="M 106,196 L 76,166 L 106,136" stroke="url(#grad2)" />
+  </g>
+</svg>
