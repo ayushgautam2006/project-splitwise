@@ -40,7 +40,7 @@ export default function Header() {
           justifyContent: "space-between",
         }}
       >
-        {/* ── Logo ── */}
+     
         <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.6rem" }}>
           <div
             style={{
@@ -66,7 +66,6 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* ── Tagline (desktop) ── */}
         <div
           className="desktop-only"
           style={{
@@ -83,7 +82,6 @@ export default function Header() {
           Split expenses instantly — no login needed
         </div>
 
-        {/* ── GitHub Link (optional) ── */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <div
             style={{

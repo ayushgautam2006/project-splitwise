@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-/* ─── Types ─────────────────────────────────────────────── */
 interface Person {
   id: string;
   name: string;
@@ -23,14 +22,14 @@ interface Settlement {
   amount: number;
 }
 
-/* ─── Constants ─────────────────────────────────────────── */
+
 const AVATAR_COLORS = [
   "#6366f1", "#00c896", "#f59e0b", "#ec4899", "#8b5cf6",
   "#06b6d4", "#f97316", "#14b8a6", "#e879f9", "#3b82f6",
   "#ef4444", "#84cc16", "#a855f7", "#22d3ee", "#fb923c",
 ];
 
-/* ─── Helpers ───────────────────────────────────────────── */
+
 function genId(): string {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -85,9 +84,6 @@ function formatCurrency(amount: number): string {
   return "₹" + amount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   MAIN COMPONENT
-   ═══════════════════════════════════════════════════════════ */
 export default function SplitCalculator() {
   const [people, setPeople] = useState<Person[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -101,7 +97,6 @@ export default function SplitCalculator() {
   const [expPaidBy, setExpPaidBy] = useState("");
   const [expSplitAmong, setExpSplitAmong] = useState<string[]>([]);
 
-  /* ── People handlers ───────────────────────────────────── */
   function handleAddPerson() {
     const name = newPersonName.trim();
     if (!name) return;
@@ -123,7 +118,6 @@ export default function SplitCalculator() {
     setExpSplitAmong(expSplitAmong.filter((pid) => pid !== id));
   }
 
-  /* ── Expense handlers ──────────────────────────────────── */
   function handleAddExpense() {
     const desc = expDesc.trim();
     const amount = parseFloat(expAmount);
@@ -154,7 +148,6 @@ export default function SplitCalculator() {
     setExpSplitAmong(people.map((p) => p.id));
   }
 
-  /* ── Computed ───────────────────────────────────────────── */
   const settlements = calcSettlements(people, expenses);
   const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
   const personById: Record<string, Person> = {};
@@ -168,7 +161,7 @@ export default function SplitCalculator() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--gradient-hero)", position: "relative" }}>
-      {/* ── Background Orbs ── */}
+
       <div
         style={{
           position: "fixed", top: "10%", left: "-10%",
@@ -188,7 +181,6 @@ export default function SplitCalculator() {
         }}
       />
 
-      {/* ── Content Container ── */}
       <div
         style={{
           maxWidth: "1200px", margin: "0 auto",
@@ -196,7 +188,7 @@ export default function SplitCalculator() {
           position: "relative", zIndex: 1,
         }}
       >
-        {/* ── Hero Header ── */}
+
         <div style={{ textAlign: "center", marginBottom: "3rem", animation: "fadeInUp 0.6s ease forwards" }}>
           <div
             style={{
@@ -233,7 +225,6 @@ export default function SplitCalculator() {
           </p>
         </div>
 
-        {/* ── Stats Bar ── */}
         {(people.length > 0 || expenses.length > 0) && (
           <div
             className="glass"
@@ -262,15 +253,14 @@ export default function SplitCalculator() {
           </div>
         )}
 
-        {/* ── Main Grid ── */}
         <div
           className="app-grid"
           style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", alignItems: "start" }}
         >
-          {/* ═══════ LEFT COLUMN ═══════ */}
+         
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 
-            {/* ── People Panel ── */}
+            
             <div className="panel">
               <div className="panel-header">
                 <div className="panel-icon" style={{ background: "rgba(0,200,150,0.12)", border: "1px solid rgba(0,200,150,0.2)" }}>
@@ -287,7 +277,7 @@ export default function SplitCalculator() {
                 </div>
               </div>
 
-              {/* Add person input */}
+              
               <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
                 <input
                   id="add-person-input"
@@ -342,7 +332,7 @@ export default function SplitCalculator() {
                 </button>
               </div>
 
-              {/* People list */}
+              
               {people.length === 0 ? (
                 <div className="empty-state">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
@@ -402,7 +392,7 @@ export default function SplitCalculator() {
               )}
             </div>
 
-            {/* ── Settlements Panel ── */}
+            
             <div className="panel">
               <div className="panel-header">
                 <div className="panel-icon" style={{ background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)" }}>
@@ -451,7 +441,7 @@ export default function SplitCalculator() {
                           opacity: 0,
                         }}
                       >
-                        {/* From avatar */}
+                        
                         <div
                           style={{
                             width: 32, height: 32, borderRadius: "50%",
@@ -522,10 +512,10 @@ export default function SplitCalculator() {
             </div>
           </div>
 
-          {/* ═══════ RIGHT COLUMN ═══════ */}
+          
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 
-            {/* ── Add Expense Panel ── */}
+            
             <div className="panel">
               <div className="panel-header">
                 <div className="panel-icon" style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.2)" }}>
@@ -550,7 +540,7 @@ export default function SplitCalculator() {
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  {/* Description */}
+                  
                   <div>
                     <label htmlFor="exp-desc" style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500, marginBottom: "0.4rem" }}>
                       What was it for?
@@ -575,7 +565,7 @@ export default function SplitCalculator() {
                     />
                   </div>
 
-                  {/* Amount */}
+                  
                   <div>
                     <label htmlFor="exp-amount" style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500, marginBottom: "0.4rem" }}>
                       Amount (₹)
@@ -602,7 +592,7 @@ export default function SplitCalculator() {
                     />
                   </div>
 
-                  {/* Paid by */}
+                 
                   <div>
                     <label htmlFor="exp-paidby" style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500, marginBottom: "0.4rem" }}>
                       Who paid?
@@ -631,7 +621,7 @@ export default function SplitCalculator() {
                     </select>
                   </div>
 
-                  {/* Split among */}
+                
                   <div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                       <label style={{ color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500 }}>Split among</label>
@@ -712,7 +702,7 @@ export default function SplitCalculator() {
                     )}
                   </div>
 
-                  {/* Add button */}
+                  
                   <button
                     type="button"
                     onClick={handleAddExpense}
@@ -746,7 +736,7 @@ export default function SplitCalculator() {
               )}
             </div>
 
-            {/* ── Expense History Panel ── */}
+            
             <div className="panel">
               <div className="panel-header">
                 <div className="panel-icon" style={{ background: "rgba(236,72,153,0.12)", border: "1px solid rgba(236,72,153,0.2)" }}>
