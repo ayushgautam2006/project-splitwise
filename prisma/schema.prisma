@@ -58,7 +58,8 @@ model Expense {
   description     String
   category        String?  @default("other")
   amount          Float
-  paidByUserId    String
+  paidByUserId    String?
+  paidByName      String   @default("")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   date            DateTime @default(now())
@@ -66,7 +67,7 @@ model Expense {
 
   // Relations
   group           Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  paidBy          User     @relation("paidBy", fields: [paidByUserId], references: [id], onDelete: Cascade)
+  paidBy          User?    @relation("paidBy", fields: [paidByUserId], references: [id], onDelete: Cascade)
   participants    ExpenseParticipant[]
 
   @@index([groupId])
@@ -77,7 +78,8 @@ model Expense {
 model ExpenseParticipant {
   id              String   @id @default(cuid())
   expenseId       String
-  userId          String
+  userId          String?
+  name            String   @default("")
   amount          Float    // Amount this person owes for this expense
   paid            Boolean  @default(false)
   createdAt       DateTime @default(now())
@@ -85,9 +87,8 @@ model ExpenseParticipant {
 
   // Relations
   expense         Expense  @relation(fields: [expenseId], references: [id], onDelete: Cascade)
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([expenseId, userId])
   @@index([expenseId])
   @@index([userId])
 }
