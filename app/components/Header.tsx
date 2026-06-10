@@ -40,7 +40,7 @@ export default function Header() {
           justifyContent: "space-between",
         }}
       >
-     
+
         <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.6rem" }}>
           <div
             style={{
@@ -79,7 +79,7 @@ export default function Header() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
           </svg>
-          Split expenses instantly — no login needed
+          Split expenses instantly
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>

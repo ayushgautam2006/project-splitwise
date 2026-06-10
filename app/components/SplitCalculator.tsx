@@ -136,6 +136,8 @@ export default function SplitCalculator({ userId, userName }: Props) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // Add person form
   const [newPersonName, setNewPersonName] = useState("");
@@ -265,6 +267,22 @@ export default function SplitCalculator({ userId, userName }: Props) {
     router.push("/login");
   }
 
+  async function handleDeleteAccount() {
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/users/${userId}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete account");
+      // Clear session and redirect — loginCode is now free for a new user
+      localStorage.removeItem("splitwise_session");
+      router.push("/login");
+    } catch {
+      setError("Failed to delete account. Please try again.");
+      setShowDeleteAccountModal(false);
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   const settlements = calcSettlements(people, expenses);
   const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
   const personById: Record<string, Person> = {};
@@ -339,6 +357,28 @@ export default function SplitCalculator({ userId, userName }: Props) {
             >
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
               Logout
+            </button>
+            <button
+              id="delete-account-btn"
+              type="button"
+              onClick={() => setShowDeleteAccountModal(true)}
+              style={{
+                background: "rgba(248,113,113,0.08)",
+                border: "1px solid rgba(248,113,113,0.25)",
+                borderRadius: "9999px",
+                padding: "0.35rem 0.85rem",
+                color: "var(--danger)",
+                fontSize: "0.75rem",
+                fontFamily: "inherit",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                transition: "all 0.2s ease",
+              }}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" /></svg>
+              Delete Account
             </button>
           </div>
 
@@ -709,6 +749,97 @@ export default function SplitCalculator({ userId, userName }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Delete Account confirmation modal */}
+      {showDeleteAccountModal && (
+        <div
+          style={{
+            position: "fixed", inset: 0, zIndex: 1000,
+            background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: "1.5rem",
+            animation: "fadeInUp 0.2s ease forwards",
+          }}
+          onClick={(e) => { if (e.target === e.currentTarget && !deleting) setShowDeleteAccountModal(false); }}
+        >
+          <div
+            className="glass"
+            style={{
+              maxWidth: "420px", width: "100%",
+              borderRadius: "var(--radius-xl)",
+              padding: "2rem",
+              border: "1px solid rgba(248,113,113,0.25)",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{
+              width: 52, height: 52, borderRadius: "50%",
+              background: "rgba(248,113,113,0.12)",
+              border: "1px solid rgba(248,113,113,0.3)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              margin: "0 auto 1.25rem",
+            }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            </div>
+            <h2 style={{ fontSize: "1.15rem", fontWeight: 800, marginBottom: "0.6rem" }}>Delete your account?</h2>
+            <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.65, marginBottom: "1.75rem" }}>
+              This will permanently delete your account and all expenses.
+              Your login code will be freed up for someone else to use.
+              <br /><br />
+              <strong style={{ color: "var(--danger)" }}>This cannot be undone.</strong>
+            </p>
+            <div style={{ display: "flex", gap: "0.75rem" }}>
+              <button
+                id="cancel-delete-account-btn"
+                type="button"
+                onClick={() => setShowDeleteAccountModal(false)}
+                disabled={deleting}
+                style={{
+                  flex: 1, padding: "0.75rem",
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "12px",
+                  color: "var(--text-secondary)",
+                  fontSize: "0.875rem", fontWeight: 600,
+                  fontFamily: "inherit", cursor: deleting ? "not-allowed" : "pointer",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                id="confirm-delete-account-btn"
+                type="button"
+                onClick={handleDeleteAccount}
+                disabled={deleting}
+                style={{
+                  flex: 1, padding: "0.75rem",
+                  background: deleting ? "rgba(248,113,113,0.2)" : "linear-gradient(135deg, #ef4444, #dc2626)",
+                  border: "none",
+                  borderRadius: "12px",
+                  color: "#fff",
+                  fontSize: "0.875rem", fontWeight: 700,
+                  fontFamily: "inherit", cursor: deleting ? "not-allowed" : "pointer",
+                  display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.45rem",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {deleting ? (
+                  <>
+                    <div style={{ width: 14, height: 14, borderRadius: "50%", border: "2px solid rgba(255,255,255,0.3)", borderTop: "2px solid white", animation: "spin-slow 0.7s linear infinite" }} />
+                    Deleting…
+                  </>
+                ) : (
+                  <>🗑 Yes, Delete Account</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         @media (max-width: 1024px) {

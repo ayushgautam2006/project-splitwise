@@ -47,7 +47,7 @@ export default function Footer() {
         </div>
 
         <p style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
-          © {new Date().getFullYear()} SplitWise. Built with ❤️ — No data stored, everything runs in your browser.
+          © {new Date().getFullYear()} SplitWise. Built with ❤️ by Ayush.
         </p>
       </div>
     </footer>
