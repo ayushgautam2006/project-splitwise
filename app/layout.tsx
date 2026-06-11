@@ -31,9 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-        <Header />
+        {/* <Header /> */}
         <main style={{ flex: 1 }}>{children}</main>
-        <Footer />
+        {/* <Footer /> */}
         <Analytics />
       </body>
     </html>
