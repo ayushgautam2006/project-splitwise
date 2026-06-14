@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export default function LoginPage() {
@@ -38,6 +37,7 @@ export default function LoginPage() {
           "splitwise_session",
           JSON.stringify({ userId: data.user.id, name: data.user.name, loginCode: data.user.loginCode })
         );
+        window.dispatchEvent(new Event("splitwise:session"));
         router.push("/");
       }
     } catch {
@@ -67,6 +67,7 @@ export default function LoginPage() {
           "splitwise_session",
           JSON.stringify({ userId: data.user.id, name: data.user.name, loginCode: data.user.loginCode })
         );
+        window.dispatchEvent(new Event("splitwise:session"));
       }
     } catch {
       setCreateError("Network error. Please try again.");
@@ -510,7 +511,6 @@ export default function LoginPage() {
       `}</style>
 
       <div className="lp-root">
-        <Header />
         <div className="bg-grid" />
         <div className="scanlines" />
         <div className="orb orb-1" />
