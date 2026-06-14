@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Header from "./Header";
+import Footer from "./Footer";
 
 interface Person {
   id: string;
@@ -296,97 +298,45 @@ export default function SplitCalculator({ userId, userName }: Props) {
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", background: "var(--gradient-hero)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ minHeight: "100vh", background: "#030b05", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Inter', sans-serif" }}>
         <div style={{ textAlign: "center" }}>
           <div style={{
             width: 48, height: 48, borderRadius: "50%",
-            border: "3px solid rgba(0,200,150,0.15)",
-            borderTop: "3px solid var(--accent)",
+            border: "3px solid rgba(0,230,100,0.15)",
+            borderTop: "3px solid #00e868",
             animation: "spin-slow 0.8s linear infinite",
             margin: "0 auto 1rem",
           }} />
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Loading your expenses…</p>
+          <p style={{ color: "rgba(150,220,170,0.5)", fontSize: "0.9rem" }}>Loading your expenses…</p>
         </div>
+        <style>{`@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--gradient-hero)", position: "relative" }}>
+    <div style={{ minHeight: "100vh", background: "#030b05", position: "relative", fontFamily: "'Inter', sans-serif", color: "#d4f5de" }}>
 
-      {/* Ambient orbs */}
-      <div style={{ position: "fixed", top: "10%", left: "-10%", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(0,200,150,0.06) 0%, transparent 70%)", animation: "orb-drift 18s ease-in-out infinite", pointerEvents: "none", zIndex: 0 }} />
-      <div style={{ position: "fixed", bottom: "5%", right: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)", animation: "orb-drift 22s ease-in-out infinite reverse", pointerEvents: "none", zIndex: 0 }} />
+      {/* ── Background layers (matches login page) ── */}
+      <div className="sc-bg-grid" />
+      <div className="sc-scanlines" />
+      <div className="sc-orb sc-orb-1" />
+      <div className="sc-orb sc-orb-2" />
+      <div className="sc-orb sc-orb-3" />
 
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "7rem 1.5rem 3rem", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "6.5rem 1.5rem 3rem", position: "relative", zIndex: 2 }}>
 
         {/* Hero header */}
-        <div style={{ textAlign: "center", marginBottom: "3rem", animation: "fadeInUp 0.6s ease forwards" }}>
-          {/* User badge */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: "0.5rem",
-              color: "var(--accent)", fontSize: "0.78rem", fontWeight: 600,
-              letterSpacing: "0.05em", textTransform: "uppercase" as const,
-              padding: "0.35rem 1rem",
-              background: "var(--accent-glow)",
-              border: "1px solid rgba(0,200,150,0.25)",
-              borderRadius: "9999px",
-            }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
-              {userName}
-            </div>
-            <button
-              id="logout-btn"
-              type="button"
-              onClick={handleLogout}
-              style={{
-                background: "transparent",
-                border: "1px solid var(--border)",
-                borderRadius: "9999px",
-                padding: "0.35rem 0.85rem",
-                color: "var(--text-muted)",
-                fontSize: "0.75rem",
-                fontFamily: "inherit",
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.35rem",
-                transition: "all 0.2s ease",
-              }}
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
-              Logout
-            </button>
-            <button
-              id="delete-account-btn"
-              type="button"
-              onClick={() => setShowDeleteAccountModal(true)}
-              style={{
-                background: "rgba(248,113,113,0.08)",
-                border: "1px solid rgba(248,113,113,0.25)",
-                borderRadius: "9999px",
-                padding: "0.35rem 0.85rem",
-                color: "var(--danger)",
-                fontSize: "0.75rem",
-                fontFamily: "inherit",
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.35rem",
-                transition: "all 0.2s ease",
-              }}
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" /></svg>
-              Delete Account
-            </button>
+        <div style={{ textAlign: "center", marginBottom: "3rem", animation: "sc-fade-up 0.6s ease both 0.1s", opacity: 0 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.12em", color: "#00e868", marginBottom: "1rem" }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00e868", boxShadow: "0 0 8px rgba(0,230,100,0.8)", display: "inline-block", animation: "sc-pulse-dot 2s ease-in-out infinite" }} />
+            Split expenses. Zero friction.
           </div>
-
-          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: "0.75rem" }}>
+          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: "0.75rem", color: "#f0fff4" }}>
             Split expenses.{" "}
-            <span className="accent-text">Settle smart.</span>
+            <span style={{ background: "linear-gradient(135deg, #00e868 0%, #00c853 60%, #009e3f 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Settle smart.</span>
           </h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "1rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
+          <p style={{ color: "rgba(180,240,200,0.5)", fontSize: "1rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
             Your expenses are saved to the cloud — come back anytime with your login code.
           </p>
         </div>
@@ -395,10 +345,10 @@ export default function SplitCalculator({ userId, userName }: Props) {
         {error && (
           <div style={{
             marginBottom: "1.5rem", padding: "0.9rem 1.25rem",
-            background: "var(--danger-glow)",
+            background: "rgba(248,113,113,0.07)",
             border: "1px solid rgba(248,113,113,0.25)",
             borderRadius: "12px",
-            color: "var(--danger)",
+            color: "#ff8a8a",
             fontSize: "0.85rem",
             display: "flex", alignItems: "center", gap: "0.75rem",
           }}>
@@ -410,18 +360,26 @@ export default function SplitCalculator({ userId, userName }: Props) {
 
         {/* Stats bar */}
         {(people.length > 0 || expenses.length > 0) && (
-          <div className="glass" style={{ borderRadius: "var(--radius-xl)", padding: "1rem 2rem", display: "flex", justifyContent: "center", gap: "3rem", marginBottom: "2rem", flexWrap: "wrap" }}>
+          <div style={{
+            background: "rgba(4,18,9,0.6)", backdropFilter: "blur(24px)",
+            border: "1px solid rgba(0,220,100,0.14)",
+            borderRadius: "20px", padding: "1rem 2rem",
+            display: "flex", justifyContent: "center", gap: "3rem",
+            marginBottom: "2rem", flexWrap: "wrap",
+            boxShadow: "0 8px 40px rgba(0,0,0,0.4)",
+            animation: "sc-fade-up 0.6s ease both 0.2s", opacity: 0,
+          }}>
             {[
-              { value: String(people.length), label: "People", color: "var(--accent)" },
+              { value: String(people.length), label: "People", color: "#00e868" },
               { value: String(expenses.length), label: "Expenses", color: "#6366f1" },
               { value: formatCurrency(totalExpenses), label: "Total Spent", color: "#f59e0b" },
-              { value: String(settlements.length), label: "Settlements", color: "var(--danger)" },
+              { value: String(settlements.length), label: "Settlements", color: "#f87171" },
             ].map((stat, i) => (
               <div key={stat.label} style={{ display: "flex", alignItems: "center" }}>
-                {i > 0 && <div style={{ width: "1px", height: "32px", background: "var(--border)", marginRight: "1.5rem" }} />}
+                {i > 0 && <div style={{ width: "1px", height: "32px", background: "rgba(0,200,80,0.15)", marginRight: "1.5rem" }} />}
                 <div style={{ textAlign: "center" }}>
                   <div style={{ color: stat.color, fontWeight: 800, fontSize: "1.4rem" }}>{stat.value}</div>
-                  <div style={{ color: "var(--text-muted)", fontSize: "0.72rem", textTransform: "uppercase" as const, letterSpacing: "0.08em" }}>{stat.label}</div>
+                  <div style={{ color: "rgba(120,190,140,0.45)", fontSize: "0.72rem", textTransform: "uppercase" as const, letterSpacing: "0.08em" }}>{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -434,17 +392,17 @@ export default function SplitCalculator({ userId, userName }: Props) {
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 
             {/* People Panel */}
-            <div className="panel">
-              <div className="panel-header">
-                <div className="panel-icon" style={{ background: "rgba(0,200,150,0.12)", border: "1px solid rgba(0,200,150,0.2)" }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00c896" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="sc-panel" style={{ animation: "sc-fade-up 0.6s ease both 0.25s", opacity: 0 }}>
+              <div className="sc-panel-header">
+                <div className="sc-panel-icon" style={{ background: "rgba(0,230,100,0.1)", border: "1px solid rgba(0,200,80,0.2)" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e868" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
                     <path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" />
                   </svg>
                 </div>
                 <div>
-                  <div className="panel-title">People</div>
-                  <div className="panel-subtitle">Add everyone in your group</div>
+                  <div className="sc-panel-title">People</div>
+                  <div className="sc-panel-subtitle">Add everyone in your group</div>
                 </div>
               </div>
 
@@ -456,24 +414,20 @@ export default function SplitCalculator({ userId, userName }: Props) {
                   value={newPersonName}
                   onChange={(e) => setNewPersonName(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAddPerson(); } }}
-                  style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.75rem 1rem", color: "var(--text-primary)", fontSize: "0.9rem", fontFamily: "inherit", outline: "none" }}
+                  className="sc-input"
+                  style={{ flex: 1 }}
                 />
                 <button
                   id="add-person-btn"
                   type="button"
                   onClick={handleAddPerson}
                   disabled={!newPersonName.trim()}
+                  className="sc-btn-primary"
                   style={{
-                    background: newPersonName.trim() ? "linear-gradient(135deg, #00c896, #00a37a, #007a5c)" : "rgba(255,255,255,0.05)",
-                    color: newPersonName.trim() ? "#fff" : "var(--text-muted)",
-                    fontWeight: 600, padding: "0.7rem 1.25rem",
-                    borderRadius: "12px", border: "none",
+                    opacity: newPersonName.trim() ? 1 : 0.38,
                     cursor: newPersonName.trim() ? "pointer" : "not-allowed",
-                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                    fontSize: "0.9rem", fontFamily: "inherit",
+                    padding: "0.7rem 1.25rem",
                     whiteSpace: "nowrap" as const,
-                    transition: "all 0.3s ease",
-                    opacity: newPersonName.trim() ? 1 : 0.5,
                   }}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
@@ -482,7 +436,7 @@ export default function SplitCalculator({ userId, userName }: Props) {
               </div>
 
               {people.length === 0 ? (
-                <div className="empty-state">
+                <div className="sc-empty-state">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
                     <path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" />
@@ -492,16 +446,16 @@ export default function SplitCalculator({ userId, userName }: Props) {
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                   {people.map((person) => (
-                    <div key={person.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0.75rem", borderRadius: "12px", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", animation: "scaleIn 0.3s ease forwards" }}>
+                    <div key={person.id} className="sc-list-item">
                       <div style={{ width: 34, height: 34, borderRadius: "50%", background: `linear-gradient(135deg, ${person.color}, ${person.color}aa)`, boxShadow: `0 2px 10px ${person.color}30`, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "0.78rem", color: "white", flexShrink: 0 }}>
                         {person.name.slice(0, 2).toUpperCase()}
                       </div>
-                      <span style={{ flex: 1, fontWeight: 600, fontSize: "0.9rem" }}>{person.name}</span>
+                      <span style={{ flex: 1, fontWeight: 600, fontSize: "0.9rem", color: "#d0ffd8" }}>{person.name}</span>
                       <button
                         type="button"
                         onClick={() => handleRemovePerson(person.id)}
                         aria-label={`Remove ${person.name}`}
-                        style={{ background: "transparent", border: "1px solid var(--border)", borderRadius: "8px", width: "30px", height: "30px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)", fontFamily: "inherit" }}
+                        className="sc-icon-btn"
                       >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                       </button>
@@ -512,21 +466,21 @@ export default function SplitCalculator({ userId, userName }: Props) {
             </div>
 
             {/* Settlements Panel */}
-            <div className="panel">
-              <div className="panel-header">
-                <div className="panel-icon" style={{ background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)" }}>
+            <div className="sc-panel" style={{ animation: "sc-fade-up 0.6s ease both 0.35s", opacity: 0 }}>
+              <div className="sc-panel-header">
+                <div className="sc-panel-icon" style={{ background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)" }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
                   </svg>
                 </div>
                 <div>
-                  <div className="panel-title">Settlements</div>
-                  <div className="panel-subtitle">Minimum transactions to settle up</div>
+                  <div className="sc-panel-title">Settlements</div>
+                  <div className="sc-panel-subtitle">Minimum transactions to settle up</div>
                 </div>
               </div>
 
               {expenses.length === 0 ? (
-                <div className="empty-state">
+                <div className="sc-empty-state">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
                   </svg>
@@ -535,8 +489,8 @@ export default function SplitCalculator({ userId, userName }: Props) {
               ) : settlements.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "2rem 1rem" }}>
                   <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>🎉</div>
-                  <p style={{ color: "var(--accent)", fontWeight: 700, fontSize: "1rem", marginBottom: "0.25rem" }}>All settled up!</p>
-                  <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Everyone is even — no payments needed.</p>
+                  <p style={{ color: "#00e868", fontWeight: 700, fontSize: "1rem", marginBottom: "0.25rem" }}>All settled up!</p>
+                  <p style={{ color: "rgba(120,190,140,0.45)", fontSize: "0.85rem" }}>Everyone is even — no payments needed.</p>
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
@@ -545,32 +499,32 @@ export default function SplitCalculator({ userId, userName }: Props) {
                     const toPerson = personById[s.to];
                     if (!fromPerson || !toPerson) return null;
                     return (
-                      <div key={`${s.from}-${s.to}-${i}`} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.85rem 1rem", borderRadius: "12px", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", animation: `fadeInUp 0.4s ease ${i * 0.08}s forwards`, opacity: 0 }}>
+                      <div key={`${s.from}-${s.to}-${i}`} className="sc-list-item" style={{ padding: "0.85rem 1rem" }}>
                         <div style={{ width: 32, height: 32, borderRadius: "50%", background: `linear-gradient(135deg, ${fromPerson.color}, ${fromPerson.color}aa)`, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "0.7rem", color: "white", flexShrink: 0 }}>
                           {fromPerson.name.slice(0, 2).toUpperCase()}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: "0.85rem" }}>
                             <span style={{ fontWeight: 700, color: fromPerson.color }}>{fromPerson.name}</span>
-                            {" "}<span style={{ color: "var(--text-muted)" }}>pays</span>{" "}
+                            {" "}<span style={{ color: "rgba(120,190,140,0.45)" }}>pays</span>{" "}
                             <span style={{ fontWeight: 700, color: toPerson.color }}>{toPerson.name}</span>
                           </div>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(120,190,140,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                           <div style={{ width: 32, height: 32, borderRadius: "50%", background: `linear-gradient(135deg, ${toPerson.color}, ${toPerson.color}aa)`, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "0.7rem", color: "white", flexShrink: 0 }}>
                             {toPerson.name.slice(0, 2).toUpperCase()}
                           </div>
                         </div>
-                        <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "var(--accent)", whiteSpace: "nowrap" as const, marginLeft: "0.25rem" }}>
+                        <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "#00e868", whiteSpace: "nowrap" as const, marginLeft: "0.25rem" }}>
                           {formatCurrency(s.amount)}
                         </span>
                       </div>
                     );
                   })}
-                  <div style={{ marginTop: "0.75rem", padding: "0.75rem 1rem", borderRadius: "12px", background: "rgba(0,200,150,0.06)", border: "1px solid rgba(0,200,150,0.15)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c896" strokeWidth="2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
-                    <span style={{ color: "var(--accent)", fontSize: "0.82rem", fontWeight: 500 }}>
+                  <div style={{ marginTop: "0.75rem", padding: "0.75rem 1rem", borderRadius: "12px", background: "rgba(0,200,80,0.06)", border: "1px solid rgba(0,200,80,0.15)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e868" strokeWidth="2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+                    <span style={{ color: "#00e868", fontSize: "0.82rem", fontWeight: 500 }}>
                       Optimized to just {settlements.length} payment{settlements.length > 1 ? "s" : ""} to settle everyone up
                     </span>
                   </div>
@@ -583,21 +537,21 @@ export default function SplitCalculator({ userId, userName }: Props) {
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 
             {/* Add Expense Panel */}
-            <div className="panel">
-              <div className="panel-header">
-                <div className="panel-icon" style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.2)" }}>
+            <div className="sc-panel" style={{ animation: "sc-fade-up 0.6s ease both 0.3s", opacity: 0 }}>
+              <div className="sc-panel-header">
+                <div className="sc-panel-icon" style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)" }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><path d="M1 10h22" />
                   </svg>
                 </div>
                 <div>
-                  <div className="panel-title">Add Expense</div>
-                  <div className="panel-subtitle">Log a shared expense</div>
+                  <div className="sc-panel-title">Add Expense</div>
+                  <div className="sc-panel-subtitle">Log a shared expense</div>
                 </div>
               </div>
 
               {people.length < 2 ? (
-                <div className="empty-state">
+                <div className="sc-empty-state">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><path d="M1 10h22" />
                   </svg>
@@ -606,21 +560,18 @@ export default function SplitCalculator({ userId, userName }: Props) {
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                   <div>
-                    <label htmlFor="exp-desc" style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500, marginBottom: "0.4rem" }}>What was it for?</label>
-                    <input id="exp-desc" type="text" placeholder="e.g. Dinner, Cab, Hotel…" value={expDesc} onChange={(e) => setExpDesc(e.target.value)}
-                      style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.75rem 1rem", color: "var(--text-primary)", fontSize: "0.9rem", fontFamily: "inherit", outline: "none" }} />
+                    <label htmlFor="exp-desc" className="sc-label">What was it for?</label>
+                    <input id="exp-desc" type="text" placeholder="e.g. Dinner, Cab, Hotel…" value={expDesc} onChange={(e) => setExpDesc(e.target.value)} className="sc-input" />
                   </div>
 
                   <div>
-                    <label htmlFor="exp-amount" style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500, marginBottom: "0.4rem" }}>Amount (₹)</label>
-                    <input id="exp-amount" type="number" min="0" step="0.01" placeholder="0.00" value={expAmount} onChange={(e) => setExpAmount(e.target.value)}
-                      style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.75rem 1rem", color: "var(--text-primary)", fontSize: "0.9rem", fontFamily: "inherit", outline: "none" }} />
+                    <label htmlFor="exp-amount" className="sc-label">Amount (₹)</label>
+                    <input id="exp-amount" type="number" min="0" step="0.01" placeholder="0.00" value={expAmount} onChange={(e) => setExpAmount(e.target.value)} className="sc-input" />
                   </div>
 
                   <div>
-                    <label htmlFor="exp-paidby" style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500, marginBottom: "0.4rem" }}>Who paid?</label>
-                    <select id="exp-paidby" value={expPaidBy} onChange={(e) => setExpPaidBy(e.target.value)}
-                      style={{ width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: "12px", padding: "0.75rem 1rem", color: expPaidBy ? "var(--text-primary)" : "var(--text-muted)", fontSize: "0.9rem", fontFamily: "inherit", outline: "none", cursor: "pointer" }}>
+                    <label htmlFor="exp-paidby" className="sc-label">Who paid?</label>
+                    <select id="exp-paidby" value={expPaidBy} onChange={(e) => setExpPaidBy(e.target.value)} className="sc-input sc-select">
                       <option value="">Select person…</option>
                       {people.map((p) => (<option key={p.id} value={p.id}>{p.name}</option>))}
                     </select>
@@ -628,15 +579,15 @@ export default function SplitCalculator({ userId, userName }: Props) {
 
                   <div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                      <label style={{ color: "var(--text-secondary)", fontSize: "0.8rem", fontWeight: 500 }}>Split among</label>
-                      <button type="button" onClick={selectAllForSplit} style={{ background: "none", border: "none", color: "var(--accent)", fontSize: "0.75rem", fontWeight: 600, cursor: "pointer", padding: "0.2rem 0.4rem", borderRadius: "4px", fontFamily: "inherit" }}>Select All</button>
+                      <label className="sc-label" style={{ marginBottom: 0 }}>Split among</label>
+                      <button type="button" onClick={selectAllForSplit} style={{ background: "none", border: "none", color: "#00e868", fontSize: "0.75rem", fontWeight: 600, cursor: "pointer", padding: "0.2rem 0.4rem", borderRadius: "4px", fontFamily: "'Inter', sans-serif" }}>Select All</button>
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
                       {people.map((p) => {
                         const isSelected = expSplitAmong.includes(p.id);
                         return (
                           <button key={p.id} type="button" onClick={() => toggleSplitPerson(p.id)}
-                            style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", padding: "0.35rem 0.75rem", borderRadius: "9999px", fontSize: "0.8rem", fontWeight: 500, fontFamily: "inherit", border: `1px solid ${isSelected ? p.color : "var(--border)"}`, background: isSelected ? `${p.color}20` : "var(--bg-card)", color: isSelected ? p.color : "var(--text-secondary)", cursor: "pointer", transition: "all 0.2s ease" }}>
+                            style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", padding: "0.35rem 0.75rem", borderRadius: "9999px", fontSize: "0.8rem", fontWeight: 500, fontFamily: "'Inter', sans-serif", border: `1px solid ${isSelected ? p.color : "rgba(0,200,80,0.14)"}`, background: isSelected ? `${p.color}20` : "rgba(0,0,0,0.3)", color: isSelected ? p.color : "rgba(140,210,165,0.5)", cursor: "pointer", transition: "all 0.2s ease" }}>
                             <span style={{ width: "18px", height: "18px", borderRadius: "50%", background: isSelected ? p.color : `${p.color}30`, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "0.6rem", fontWeight: 700, color: isSelected ? "white" : p.color }}>
                               {isSelected ? "✓" : p.name[0]}
                             </span>
@@ -646,9 +597,9 @@ export default function SplitCalculator({ userId, userName }: Props) {
                       })}
                     </div>
                     {expSplitAmong.length > 0 && parseFloat(expAmount) > 0 && (
-                      <div style={{ marginTop: "0.6rem", padding: "0.5rem 0.75rem", borderRadius: "8px", background: "rgba(0,200,150,0.06)", border: "1px solid rgba(0,200,150,0.12)", fontSize: "0.78rem", color: "var(--text-secondary)" }}>
+                      <div style={{ marginTop: "0.6rem", padding: "0.5rem 0.75rem", borderRadius: "8px", background: "rgba(0,200,80,0.06)", border: "1px solid rgba(0,200,80,0.12)", fontSize: "0.78rem", color: "rgba(150,220,170,0.6)" }}>
                         💡 Each person pays{" "}
-                        <span style={{ color: "var(--accent)", fontWeight: 700 }}>
+                        <span style={{ color: "#00e868", fontWeight: 700 }}>
                           {formatCurrency(parseFloat(expAmount) / expSplitAmong.length)}
                         </span>
                       </div>
@@ -660,16 +611,11 @@ export default function SplitCalculator({ userId, userName }: Props) {
                     type="button"
                     onClick={handleAddExpense}
                     disabled={!canAddExpense || saving}
+                    className="sc-btn-primary"
                     style={{
                       width: "100%", marginTop: "0.25rem", padding: "0.85rem",
-                      background: canAddExpense && !saving ? "linear-gradient(135deg, #00c896, #00a37a, #007a5c)" : "rgba(255,255,255,0.05)",
-                      color: canAddExpense && !saving ? "#fff" : "var(--text-muted)",
-                      fontWeight: 600, borderRadius: "12px", border: "none",
+                      opacity: canAddExpense && !saving ? 1 : 0.38,
                       cursor: canAddExpense && !saving ? "pointer" : "not-allowed",
-                      display: "inline-flex", alignItems: "center", justifyContent: "center",
-                      gap: "0.5rem", fontSize: "0.9rem", fontFamily: "inherit",
-                      transition: "all 0.3s ease",
-                      opacity: canAddExpense && !saving ? 1 : 0.5,
                     }}
                   >
                     {saving ? (
@@ -689,22 +635,22 @@ export default function SplitCalculator({ userId, userName }: Props) {
             </div>
 
             {/* Expense History Panel */}
-            <div className="panel">
-              <div className="panel-header">
-                <div className="panel-icon" style={{ background: "rgba(236,72,153,0.12)", border: "1px solid rgba(236,72,153,0.2)" }}>
+            <div className="sc-panel" style={{ animation: "sc-fade-up 0.6s ease both 0.4s", opacity: 0 }}>
+              <div className="sc-panel-header">
+                <div className="sc-panel-icon" style={{ background: "rgba(236,72,153,0.1)", border: "1px solid rgba(236,72,153,0.2)" }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" />
                     <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
                   </svg>
                 </div>
                 <div>
-                  <div className="panel-title">Expense History</div>
-                  <div className="panel-subtitle">{expenses.length} expense{expenses.length !== 1 ? "s" : ""} logged</div>
+                  <div className="sc-panel-title">Expense History</div>
+                  <div className="sc-panel-subtitle">{expenses.length} expense{expenses.length !== 1 ? "s" : ""} logged</div>
                 </div>
               </div>
 
               {expenses.length === 0 ? (
-                <div className="empty-state">
+                <div className="sc-empty-state">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" />
                     <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
@@ -717,26 +663,27 @@ export default function SplitCalculator({ userId, userName }: Props) {
                     const payer = personById[exp.paidById];
                     if (!payer) return null;
                     return (
-                      <div key={exp.id} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "12px", background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}>
+                      <div key={exp.id} className="sc-list-item" style={{ padding: "0.75rem" }}>
                         <div style={{ width: 36, height: 36, borderRadius: "50%", background: `linear-gradient(135deg, ${payer.color}, ${payer.color}aa)`, boxShadow: `0 2px 10px ${payer.color}30`, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "0.78rem", color: "white", flexShrink: 0 }}>
                           {payer.name.slice(0, 2).toUpperCase()}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontWeight: 700, fontSize: "0.88rem", marginBottom: "0.15rem" }}>{exp.description}</div>
-                          <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
+                          <div style={{ fontWeight: 700, fontSize: "0.88rem", marginBottom: "0.15rem", color: "#d0ffd8" }}>{exp.description}</div>
+                          <div style={{ color: "rgba(120,190,140,0.45)", fontSize: "0.75rem" }}>
                             Paid by{" "}<span style={{ color: payer.color, fontWeight: 600 }}>{payer.name}</span>
                             {" · "}split among {exp.splitAmong.length}
                           </div>
                         </div>
                         <div style={{ textAlign: "right", flexShrink: 0 }}>
-                          <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "var(--accent)" }}>{formatCurrency(exp.amount)}</div>
-                          <div style={{ color: "var(--text-muted)", fontSize: "0.7rem" }}>{formatCurrency(exp.amount / exp.splitAmong.length)}/person</div>
+                          <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#00e868" }}>{formatCurrency(exp.amount)}</div>
+                          <div style={{ color: "rgba(120,190,140,0.45)", fontSize: "0.7rem" }}>{formatCurrency(exp.amount / exp.splitAmong.length)}/person</div>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleRemoveExpense(exp.id)}
                           aria-label={`Remove ${exp.description}`}
-                          style={{ background: "transparent", border: "1px solid var(--border)", borderRadius: "8px", width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)", flexShrink: 0, fontFamily: "inherit" }}
+                          className="sc-icon-btn"
+                          style={{ width: "28px", height: "28px" }}
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                         </button>
@@ -755,21 +702,22 @@ export default function SplitCalculator({ userId, userName }: Props) {
         <div
           style={{
             position: "fixed", inset: 0, zIndex: 1000,
-            background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)",
+            background: "rgba(0,0,0,0.75)", backdropFilter: "blur(6px)",
             display: "flex", alignItems: "center", justifyContent: "center",
             padding: "1.5rem",
-            animation: "fadeInUp 0.2s ease forwards",
+            animation: "sc-fade-up 0.2s ease forwards",
           }}
           onClick={(e) => { if (e.target === e.currentTarget && !deleting) setShowDeleteAccountModal(false); }}
         >
           <div
-            className="glass"
             style={{
               maxWidth: "420px", width: "100%",
-              borderRadius: "var(--radius-xl)",
+              background: "rgba(4,18,9,0.88)",
+              backdropFilter: "blur(32px) saturate(160%)",
+              borderRadius: "24px",
               padding: "2rem",
               border: "1px solid rgba(248,113,113,0.25)",
-              boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
               textAlign: "center",
             }}
           >
@@ -780,17 +728,17 @@ export default function SplitCalculator({ userId, userName }: Props) {
               display: "flex", alignItems: "center", justifyContent: "center",
               margin: "0 auto 1.25rem",
             }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
                 <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
               </svg>
             </div>
-            <h2 style={{ fontSize: "1.15rem", fontWeight: 800, marginBottom: "0.6rem" }}>Delete your account?</h2>
-            <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.65, marginBottom: "1.75rem" }}>
+            <h2 style={{ fontSize: "1.15rem", fontWeight: 800, marginBottom: "0.6rem", color: "#e8ffe8" }}>Delete your account?</h2>
+            <p style={{ color: "rgba(150,220,170,0.5)", fontSize: "0.875rem", lineHeight: 1.65, marginBottom: "1.75rem" }}>
               This will permanently delete your account and all expenses.
               Your login code will be freed up for someone else to use.
               <br /><br />
-              <strong style={{ color: "var(--danger)" }}>This cannot be undone.</strong>
+              <strong style={{ color: "#f87171" }}>This cannot be undone.</strong>
             </p>
             <div style={{ display: "flex", gap: "0.75rem" }}>
               <button
@@ -800,12 +748,13 @@ export default function SplitCalculator({ userId, userName }: Props) {
                 disabled={deleting}
                 style={{
                   flex: 1, padding: "0.75rem",
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid var(--border)",
+                  background: "rgba(0,0,0,0.38)",
+                  border: "1px solid rgba(0,200,80,0.14)",
                   borderRadius: "12px",
-                  color: "var(--text-secondary)",
+                  color: "rgba(140,210,165,0.6)",
                   fontSize: "0.875rem", fontWeight: 600,
-                  fontFamily: "inherit", cursor: deleting ? "not-allowed" : "pointer",
+                  fontFamily: "'Inter', sans-serif", cursor: deleting ? "not-allowed" : "pointer",
+                  transition: "all 0.2s ease",
                 }}
               >
                 Cancel
@@ -822,7 +771,7 @@ export default function SplitCalculator({ userId, userName }: Props) {
                   borderRadius: "12px",
                   color: "#fff",
                   fontSize: "0.875rem", fontWeight: 700,
-                  fontFamily: "inherit", cursor: deleting ? "not-allowed" : "pointer",
+                  fontFamily: "'Inter', sans-serif", cursor: deleting ? "not-allowed" : "pointer",
                   display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "0.45rem",
                   transition: "all 0.2s ease",
                 }}
@@ -840,10 +789,219 @@ export default function SplitCalculator({ userId, userName }: Props) {
           </div>
         </div>
       )}
-
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        /* ── Animated Background (mirrors login page) ── */
+        .sc-bg-grid {
+          position: fixed; inset: 0; z-index: 0;
+          background-image:
+            linear-gradient(rgba(0,210,100,0.045) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,210,100,0.045) 1px, transparent 1px);
+          background-size: 52px 52px;
+          animation: sc-grid-pan 28s linear infinite;
+          pointer-events: none;
+        }
+        @keyframes sc-grid-pan {
+          from { background-position: 0 0; }
+          to   { background-position: 52px 52px; }
+        }
+        .sc-orb {
+          position: fixed; border-radius: 50%;
+          pointer-events: none; z-index: 0;
+        }
+        .sc-orb-1 {
+          width: 700px; height: 700px; top: -180px; left: -200px;
+          background: radial-gradient(circle at 38% 38%, rgba(0,230,100,0.11) 0%, transparent 62%);
+          animation: sc-orb-drift 22s ease-in-out infinite;
+        }
+        .sc-orb-2 {
+          width: 500px; height: 500px; bottom: -100px; right: -120px;
+          background: radial-gradient(circle at 60% 60%, rgba(0,190,80,0.09) 0%, transparent 62%);
+          animation: sc-orb-drift 28s ease-in-out infinite reverse;
+        }
+        .sc-orb-3 {
+          width: 300px; height: 300px; top: 40%; left: 60%;
+          background: radial-gradient(circle, rgba(0,255,120,0.055) 0%, transparent 68%);
+          animation: sc-orb-drift 18s ease-in-out infinite 6s;
+        }
+        @keyframes sc-orb-drift {
+          0%,100% { transform: translate(0,0) scale(1); }
+          33%      { transform: translate(28px,-36px) scale(1.04); }
+          66%      { transform: translate(-18px,22px) scale(0.97); }
+        }
+        .sc-scanlines {
+          position: fixed; inset: 0; z-index: 1; pointer-events: none;
+          background: repeating-linear-gradient(
+            to bottom,
+            transparent 0px, transparent 3px,
+            rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+          );
+        }
+
+        /* ── Animations ── */
+        @keyframes sc-fade-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes sc-fade-down {
+          from { opacity: 0; transform: translateY(-14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes sc-pulse-dot {
+          0%,100% { opacity: 1; transform: scale(1); }
+          50%      { opacity: 0.5; transform: scale(0.7); }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+
+        /* ── Glassmorphism Panel (mirrors login card) ── */
+        .sc-panel {
+          width: 100%;
+          padding: 2rem;
+          background: rgba(4,18,9,0.6);
+          backdrop-filter: blur(32px) saturate(160%);
+          -webkit-backdrop-filter: blur(32px) saturate(160%);
+          border: 1px solid rgba(0,220,100,0.18);
+          border-radius: 24px;
+          box-shadow:
+            0 0 0 1px rgba(0,255,120,0.04) inset,
+            0 8px 60px rgba(0,0,0,0.65),
+            0 0 100px rgba(0,180,80,0.07);
+          position: relative;
+          overflow: hidden;
+          font-family: 'Inter', sans-serif;
+        }
+        .sc-panel::before {
+          content: '';
+          position: absolute; top: 0; left: 12%; right: 12%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(0,230,100,0.45), transparent);
+          pointer-events: none;
+        }
+        .sc-panel-header {
+          display: flex; align-items: center; gap: 0.75rem;
+          margin-bottom: 1.5rem;
+        }
+        .sc-panel-icon {
+          width: 42px; height: 42px; border-radius: 12px;
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0;
+        }
+        .sc-panel-title {
+          font-weight: 800; font-size: 1.05rem;
+          letter-spacing: -0.03em; color: #e8ffe8;
+        }
+        .sc-panel-subtitle {
+          color: rgba(150,220,170,0.45); font-size: 0.78rem;
+        }
+
+        /* ── Input / Select ── */
+        .sc-input {
+          width: 100%;
+          background: rgba(0,0,0,0.38);
+          border: 1px solid rgba(0,200,80,0.14);
+          border-radius: 12px;
+          padding: 0.8rem 1rem;
+          color: #d0ffd8;
+          font-size: 0.92rem; font-family: 'Inter', sans-serif;
+          outline: none;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.28) inset;
+          caret-color: #00e868;
+        }
+        .sc-input::placeholder { color: rgba(90,170,110,0.28); }
+        .sc-input:focus {
+          border-color: rgba(0,225,100,0.42);
+          background: rgba(0,8,3,0.48);
+          box-shadow: 0 0 0 3px rgba(0,200,80,0.09), 0 2px 10px rgba(0,0,0,0.28) inset;
+        }
+        .sc-select { cursor: pointer; }
+        .sc-select option {
+          background: #0a1a0c;
+          color: #d0ffd8;
+        }
+
+        /* ── Label ── */
+        .sc-label {
+          display: block;
+          color: rgba(150,225,175,0.6);
+          font-size: 0.75rem; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.09em;
+          margin-bottom: 0.45rem;
+          font-family: 'Inter', sans-serif;
+        }
+
+        /* ── Primary Button ── */
+        .sc-btn-primary {
+          background: linear-gradient(135deg, #00e868 0%, #00c853 50%, #009e3f 100%);
+          color: #031a09; font-weight: 800; font-size: 0.91rem;
+          font-family: 'Inter', sans-serif;
+          border-radius: 12px; border: none; cursor: pointer;
+          letter-spacing: -0.01em;
+          transition: all 0.22s ease;
+          position: relative; overflow: hidden;
+          box-shadow: 0 0 0 1px rgba(0,225,100,0.28), 0 4px 22px rgba(0,200,80,0.28);
+          display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .sc-btn-primary:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 0 0 1px rgba(0,225,100,0.38), 0 6px 30px rgba(0,200,80,0.38);
+        }
+        .sc-btn-primary:active:not(:disabled) { transform: translateY(0); }
+
+        /* ── Icon Button ── */
+        .sc-icon-btn {
+          background: transparent;
+          border: 1px solid rgba(0,200,80,0.14);
+          border-radius: 8px;
+          width: 30px; height: 30px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer;
+          color: rgba(120,190,140,0.45);
+          transition: all 0.2s ease;
+          font-family: 'Inter', sans-serif;
+          flex-shrink: 0;
+        }
+        .sc-icon-btn:hover {
+          border-color: rgba(0,225,100,0.35);
+          color: #00e868;
+          background: rgba(0,200,80,0.07);
+        }
+
+        /* ── List Item ── */
+        .sc-list-item {
+          display: flex; align-items: center; gap: 0.75rem;
+          padding: 0.6rem 0.75rem;
+          border-radius: 12px;
+          background: rgba(0,0,0,0.28);
+          border: 1px solid rgba(0,200,80,0.1);
+          transition: all 0.2s ease;
+        }
+        .sc-list-item:hover {
+          border-color: rgba(0,200,80,0.22);
+          background: rgba(0,200,80,0.04);
+        }
+
+        /* ── Empty State ── */
+        .sc-empty-state {
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          padding: 2.5rem 1rem; text-align: center;
+          color: rgba(120,190,140,0.35);
+        }
+        .sc-empty-state svg { margin-bottom: 1rem; opacity: 0.35; }
+        .sc-empty-state p {
+          font-size: 0.85rem; line-height: 1.6; max-width: 260px;
+        }
+
         @media (max-width: 1024px) {
           .app-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .sc-panel { padding: 1.25rem; }
         }
       `}</style>
     </div>

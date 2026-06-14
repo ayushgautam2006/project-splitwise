@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -157,64 +159,23 @@ export default function LoginPage() {
           min-height: 100vh;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto 1fr auto;
+          grid-template-rows: 1fr auto;
           max-width: 1180px;
           margin: 0 auto;
           padding: 0 2rem;
           gap: 0;
         }
 
-        /* ── Nav ── */
-        .lp-nav {
-          grid-column: 1 / -1;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1.5rem 0;
-          border-bottom: 1px solid rgba(0,210,100,0.1);
-          animation: fade-down 0.5s ease both;
-        }
-        .nav-logo {
-          display: flex; align-items: center; gap: 0.6rem;
-        }
-        .logo-icon {
-          width: 36px; height: 36px; border-radius: 10px;
-          background: linear-gradient(135deg, #00e868, #009e3f);
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 0 0 1px rgba(0,230,100,0.3), 0 3px 16px rgba(0,200,80,0.3);
-          position: relative; overflow: hidden; flex-shrink: 0;
-        }
-        .logo-icon::after {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
-        }
-        .logo-wordmark {
-          font-weight: 800; font-size: 1.15rem;
-          letter-spacing: -0.05em; color: #e8ffe8;
-        }
-        .logo-wordmark span {
-          background: linear-gradient(135deg, #00e868, #00c853);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        .nav-badge {
-          font-size: 0.72rem; font-weight: 600;
-          color: rgba(0,230,100,0.7);
-          border: 1px solid rgba(0,200,80,0.2);
-          background: rgba(0,200,80,0.07);
-          padding: 0.3rem 0.75rem; border-radius: 999px;
-          letter-spacing: 0.04em;
-        }
+
 
         /* ── Hero (left column) ── */
         .lp-hero {
           grid-column: 1;
-          grid-row: 2;
+          grid-row: 1;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 4rem 3rem 4rem 0;
+          padding: 6rem 3rem 4rem 0;
           animation: fade-up 0.6s ease both 0.1s;
         }
 
@@ -307,11 +268,11 @@ export default function LoginPage() {
         /* ── Auth card (right column) ── */
         .lp-auth {
           grid-column: 2;
-          grid-row: 2;
+          grid-row: 1;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 4rem 0 4rem 2rem;
+          padding: 6rem 0 4rem 2rem;
           animation: fade-up 0.6s ease both 0.2s;
         }
 
@@ -510,28 +471,7 @@ export default function LoginPage() {
           text-align: center; margin-bottom: 1.1rem; line-height: 1.5;
         }
 
-        /* Footer */
-        .lp-footer {
-          grid-column: 1 / -1;
-          padding: 1.25rem 0;
-          border-top: 1px solid rgba(0,210,100,0.08);
-          display: flex; align-items: center; justify-content: space-between;
-          animation: fade-up 0.5s ease both 0.3s;
-        }
-        .footer-copy {
-          font-size: 0.75rem;
-          color: rgba(100,175,125,0.3);
-        }
-        .footer-links {
-          display: flex; gap: 1.5rem;
-        }
-        .footer-link {
-          font-size: 0.75rem;
-          color: rgba(100,175,125,0.3);
-          text-decoration: none;
-          transition: color 0.2s ease;
-        }
-        .footer-link:hover { color: rgba(150,220,170,0.55); }
+
 
         /* Animations */
         @keyframes fade-up {
@@ -554,8 +494,8 @@ export default function LoginPage() {
             padding: 0 1.25rem;
           }
           .lp-hero {
-            grid-column: 1; grid-row: 2;
-            padding: 2.5rem 0 1.5rem;
+            grid-column: 1; grid-row: 1;
+            padding: 5.5rem 0 1.5rem;
             text-align: center;
             align-items: center;
           }
@@ -563,14 +503,14 @@ export default function LoginPage() {
           .feature-list { align-items: flex-start; width: 100%; max-width: 340px; }
           .social-proof { justify-content: center; }
           .lp-auth {
-            grid-column: 1; grid-row: 3;
+            grid-column: 1; grid-row: 2;
             padding: 0 0 2.5rem;
           }
-          .lp-footer { flex-direction: column; gap: 0.75rem; text-align: center; }
         }
       `}</style>
 
       <div className="lp-root">
+        <Header />
         <div className="bg-grid" />
         <div className="scanlines" />
         <div className="orb orb-1" />
@@ -578,19 +518,6 @@ export default function LoginPage() {
         <div className="orb orb-3" />
 
         <div className="lp-inner">
-
-          {/* ── Nav ── */}
-          <nav className="lp-nav">
-            <div className="nav-logo">
-              <div className="logo-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                </svg>
-              </div>
-              <span className="logo-wordmark">Split<span>wise</span></span>
-            </div>
-            <span className="nav-badge">Free · No signup required</span>
-          </nav>
 
           {/* ── Hero ── */}
           <section className="lp-hero">
@@ -749,15 +676,8 @@ export default function LoginPage() {
             </div>
           </section>
 
-          {/* ── Footer ── */}
-          <footer className="lp-footer">
-            <span className="footer-copy">© 2025 Splitwise · Built for groups</span>
-            <div className="footer-links">
-              <a href="#" className="footer-link">Contact</a>
-            </div>
-          </footer>
-
         </div>
+        <Footer />
       </div>
     </>
   );
